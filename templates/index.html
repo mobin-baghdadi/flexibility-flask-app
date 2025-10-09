@@ -1,215 +1,35 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>برنامه محاسبه زاویه انعطاف‌پذیری</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Tahoma', 'Arial', sans-serif;
-      padding: 20px;
-      background: 
-        repeating-linear-gradient(
-          45deg,
-          #000000,
-          #000000 10px,
-          #1a0000 10px,
-          #1a0000 20px
-        ),
-        linear-gradient(135deg, #000000, #8b0000);
-      background-blend-mode: overlay;
-      color: #f0f0f0;
-      direction: rtl;
-    }
-
-    #image-container {
-      position: relative;
-      display: inline-block;
-      margin-top: 20px;
-      max-width: 100%;
-    }
-
-    #uploaded-image {
-      max-width: 100%;
-      height: auto;
-      cursor: crosshair;
-      display: block;
-      border-radius: 10px;
-      border: 2px solid #ccc;
-    }
-
-    /* پیام روی تصویر */
-    #image-message {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: rgba(0,0,0,0.6);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1em;
-      max-width: 90%;
-      text-align: center;
-      pointer-events: none;
-      user-select: none;
-      z-index: 10;
-    }
-
-    .point {
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      background: #e74c3c;
-      border-radius: 50%;
-      border: 2px solid white;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      box-shadow: 0 0 5px rgba(0,0,0,0.3);
-      z-index: 11;
-    }
-
-    #welcome-msg {
-      font-size: 1.3em;
-      color: #ffcc00;
-      font-weight: bold;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    #message {
-      display: none;
-    }
-
-    button {
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      font-size: 1em;
-      cursor: pointer;
-      margin-right: 8px;
-      margin-top: 10px;
-      min-width: 130px;
-    }
-
-    button:disabled {
-      background-color: #95a5a6;
-      cursor: not-allowed;
-    }
-
-    #result {
-      margin-top: 25px;
-      padding: 15px;
-      border-radius: 10px;
-      background-color: #ffffff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      font-size: 1.1em;
-      color: #2c3e50;
-      text-align: center;
-    }
-
-    .footer {
-      margin-top: 50px;
-      border-top: 1px solid #ccc;
-      padding-top: 15px;
-      text-align: center;
-      font-size: 0.9em;
-      color: #ffee00;
-    }
-
-    .footer img {
-      vertical-align: middle;
-      margin-left: 5px;
-      width: 18px;
-      height: 18px;
-    }
-
-    .footer a {
-      color: #3498db;
-      text-decoration: none;
-    }
-
-    @media (max-width: 600px) {
-      button {
-        width: 100%;
-        margin-top: 10px;
-      }
-
-      #uploaded-image {
-        max-width: 100%;
-        height: auto;
-      }
-    }
-
-    /* ---------- صفحه شروع (عکس راهنما) ---------- */
-    #intro-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    #intro-image {
-      max-width: 80%;
-      max-height: 80%;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255,255,255,0.4);
-    }
-  </style>
+<meta charset="UTF-8">
+<title>محاسبه زاویه انعطاف‌پذیری</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:'Tahoma','Arial',sans-serif;padding:20px;background:repeating-linear-gradient(45deg,#000 0 10px,#1a0000 10px 20px),linear-gradient(135deg,#000,#8b0000);background-blend-mode:overlay;color:#f0f0f0;direction:rtl;}
+#image-container{position:relative;display:inline-block;margin-top:20px;max-width:100%;}
+#uploaded-image,#guide-image{max-width:100%;height:auto;border-radius:10px;border:2px solid #ccc;display:block;}
+.point{position:absolute;width:16px;height:16px;background:#e74c3c;border-radius:50%;border:2px solid white;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 5px rgba(0,0,0,0.3);z-index:11;}
+button{background-color:#27ae60;color:white;border:none;padding:10px 15px;border-radius:6px;cursor:pointer;margin-right:8px;margin-top:10px;min-width:130px;}
+button:disabled{background-color:#95a5a6;cursor:not-allowed;}
+#result{margin-top:25px;padding:15px;border-radius:10px;background-color:#fff;color:#2c3e50;text-align:center;font-size:1.1em;}
+.footer{margin-top:50px;border-top:1px solid #ccc;padding-top:15px;text-align:center;font-size:0.9em;color:#ffee00;}
+.footer img{vertical-align:middle;margin-left:5px;width:18px;height:18px;}
+.footer a{color:#3498db;text-decoration:none;}
+</style>
 </head>
 <body>
 
-<!-- صفحه آغازین (نمایش عکس راهنما به مدت ۶ ثانیه) -->
-<div id="intro-screen">
-  <img src="{{ url_for('static', filename='guide.jpg') }}" alt="راهنما" id="intro-image">
-</div>
+<div id="welcome-msg">👋 خوش آمدید! ابتدا تصویر راهنما را مشاهده کنید.</div>
+<img id="guide-image" src="{{ url_for('static', filename='guide.jpg') }}" alt="راهنما" />
 
-<div id="welcome-msg">👋 خوش آمدید! تصویر خود را بارگذاری کنید و روی ۳ نقطه‌ی مشخص کلیک کنید.</div>
-
-<form id="upload-form" method="POST" enctype="multipart/form-data" action="/">
-  <input type="file" id="image-input" name="image" accept="image/*" required />
-  <button type="submit">شروع / بازنشانی</button>
-</form>
-
-<div id="message">لطفاً نقطه‌ی خاجی-دُمگاهی را انتخاب کنید.</div>
-
+<input type="file" id="image-input" accept="image/*" style="margin-top:15px;">
 <div id="image-container" style="display:none;">
-  <img id="uploaded-image" src="#" alt="تصویر بارگذاری شده" />
-  <div id="image-message">پیغام‌ها اینجا نمایش داده می‌شود</div>
+  <img id="uploaded-image" src="#">
 </div>
+<button id="calc-btn" disabled>محاسبه زاویه انعطاف‌پذیری</button>
+<button id="clear-btn">پاک کردن نقاط</button>
 
-<form id="coords-form" method="POST" style="display:none; margin-top:15px;">
-  <input type="hidden" name="hip_x" id="hip_x" />
-  <input type="hidden" name="hip_y" id="hip_y" />
-  <input type="hidden" name="left_ankle_x" id="left_ankle_x" />
-  <input type="hidden" name="left_ankle_y" id="left_ankle_y" />
-  <input type="hidden" name="right_ankle_x" id="right_ankle_x" />
-  <input type="hidden" name="right_ankle_y" id="right_ankle_y" />
-  <button type="submit" id="calc-btn" disabled>محاسبه زاویه انعطاف‌پذیری</button>
-  <button type="button" id="clear-btn">پاک کردن نقاط</button>
-</form>
-
-<div id="result">
-  {% if flexibility %}
-    ✅ <strong>زاویه انعطاف‌پذیری:</strong> <span style="color:green;">{{ flexibility }}°</span>
-  {% endif %}
-  {% if error %}
-    ❌ <span style="color:red;">{{ error }}</span>
-  {% endif %}
-</div>
+<div id="result"></div>
 
 <div class="footer">
   <p><strong>تماس با ما:</strong></p>
@@ -222,92 +42,77 @@
 </div>
 
 <script>
-  // نمایش عکس راهنما به مدت ۶ ثانیه
-  window.addEventListener('load', () => {
-    const intro = document.getElementById('intro-screen');
-    setTimeout(() => {
-      intro.style.opacity = '0';
-      intro.style.transition = 'opacity 1s ease';
-      setTimeout(() => intro.remove(), 1000);
-    }, 6000);
-  });
+let uploadedImage = document.getElementById('uploaded-image');
+let guideImage = document.getElementById('guide-image');
+let imageContainer = document.getElementById('image-container');
+let imageInput = document.getElementById('image-input');
+let calcBtn = document.getElementById('calc-btn');
+let clearBtn = document.getElementById('clear-btn');
+let resultDiv = document.getElementById('result');
 
-  const imageInput = document.getElementById('image-input');
-  const uploadedImage = document.getElementById('uploaded-image');
-  const imageContainer = document.getElementById('image-container');
-  const imageMessage = document.getElementById('image-message');
-  const message = document.getElementById('message');
-  const coordsForm = document.getElementById('coords-form');
-  const calcBtn = document.getElementById('calc-btn');
-  const clearBtn = document.getElementById('clear-btn');
+let labels = ['لگن','مچ پای چپ','مچ پای راست'];
+let points = [], step = 0;
+let imageBase64 = "";
 
-  const hip_x = document.getElementById('hip_x');
-  const hip_y = document.getElementById('hip_y');
-  const left_ankle_x = document.getElementById('left_ankle_x');
-  const left_ankle_y = document.getElementById('left_ankle_y');
-  const right_ankle_x = document.getElementById('right_ankle_x');
-  const right_ankle_y = document.getElementById('right_ankle_y');
+// نمایش عکس راهنما ۶ ثانیه
+setTimeout(()=>{ 
+    guideImage.style.display='none'; 
+    imageContainer.style.display='inline-block'; 
+    document.getElementById('welcome-msg').textContent='تصویر خود را بارگذاری کنید و روی ۳ نقطه کلیک کنید.'; 
+},6000);
 
-  const labels = ['لگن', 'مچ پای چپ', 'مچ پای راست'];
-  let points = [];
-  let step = 0;
-
-  function resetPoints() {
-    document.querySelectorAll('.point').forEach(p => p.remove());
-    points = [];
-    step = 0;
-    imageMessage.textContent = 'لطفاً نقطه‌ی خاجی-دُمگاهی را انتخاب کنید.';
-    coordsForm.style.display = 'none';
-    calcBtn.disabled = true;
-  }
-
-  imageInput.addEventListener('change', e => {
+// بارگذاری تصویر کاربر
+imageInput.addEventListener('change', e=>{
     const file = e.target.files[0];
-    if (!file) return;
+    if(!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
-      uploadedImage.src = reader.result;
-      imageContainer.style.display = 'inline-block';
-      resetPoints();
+    reader.onload = ()=>{
+        uploadedImage.src = reader.result;
+        imageBase64 = reader.result;
+        step=0; points=[];
+        imageContainer.style.display='inline-block';
+        calcBtn.disabled=true;
+        document.querySelectorAll('.point').forEach(p=>p.remove());
     };
     reader.readAsDataURL(file);
-  });
+});
 
-  uploadedImage.addEventListener('click', e => {
-    if (step >= labels.length) return;
-
+// کلیک روی تصویر برای انتخاب نقاط
+uploadedImage.addEventListener('click', e=>{
+    if(step>=labels.length) return;
     const rect = uploadedImage.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-
-    const point = document.createElement('div');
-    point.classList.add('point');
-    point.style.left = x + 'px';
-    point.style.top = y + 'px';
-    point.title = labels[step];
-    imageContainer.appendChild(point);
-
-    points.push({x: Math.round(x), y: Math.round(y)});
+    const pointDiv = document.createElement('div');
+    pointDiv.className='point';
+    pointDiv.style.left=x+'px';
+    pointDiv.style.top=y+'px';
+    pointDiv.title=labels[step];
+    imageContainer.appendChild(pointDiv);
+    points.push([Math.round(x),Math.round(y)]);
     step++;
+    if(step==labels.length) calcBtn.disabled=false;
+});
 
-    if (step < labels.length) {
-      imageMessage.textContent = 'لطفاً روی نقطه‌ی ' + labels[step] + ' کلیک کنید.';
-    } else {
-      imageMessage.textContent = '✅ همه نقاط انتخاب شدند! اکنون روی دکمه‌ی زیر کلیک کنید تا زاویه محاسبه شود.';
-      coordsForm.style.display = 'block';
+// پاک کردن نقاط
+clearBtn.addEventListener('click', ()=>{
+    document.querySelectorAll('.point').forEach(p=>p.remove());
+    points=[]; step=0; calcBtn.disabled=true;
+});
 
-      hip_x.value = points[0].x;
-      hip_y.value = points[0].y;
-      left_ankle_x.value = points[1].x;
-      left_ankle_y.value = points[1].y;
-      right_ankle_x.value = points[2].x;
-      right_ankle_y.value = points[2].y;
-
-      calcBtn.disabled = false;
-    }
-  });
-
-  clearBtn.addEventListener('click', resetPoints);
+// ارسال برای محاسبه زاویه
+calcBtn.addEventListener('click', ()=>{
+    fetch('/calculate',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({image:imageBase64, joints:{hip:points[0], left_ankle:points[1], right_ankle:points[2]}})
+    })
+    .then(r=>r.json())
+    .then(data=>{
+        if(data.error) resultDiv.innerHTML='❌ '+data.error;
+        else resultDiv.innerHTML='✅ زاویه انعطاف‌پذیری: '+data.flexibility+'°';
+    });
+});
 </script>
 
 </body>
