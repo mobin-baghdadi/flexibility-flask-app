@@ -1,4 +1,4 @@
-flask
-opencv-python
-numpy
-gunicorn
+Flask==2.3.3
+numpy==1.26.0
+opencv-python-headless==4.9.0.76
+gunicorn==21.2.0
